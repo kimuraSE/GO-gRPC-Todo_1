@@ -21,17 +21,17 @@ func NewDB() *gorm.DB {
 		os.Getenv("POSTGRES_HOST"), os.Getenv("POSTGRES_PORT"),
 		os.Getenv("POSTGRES_DB"))
 
-		db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
-		if err != nil {
-			log.Fatalln(err)
-		}
-		fmt.Println("Connected to database")
-		return db
+	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println("Connected to database")
+	return db
 }
 
 func CloseDB(db *gorm.DB) {
-	sqlDB,_:=db.DB()
-	if err:=sqlDB.Close();err!=nil{
+	sqlDB, _ := db.DB()
+	if err := sqlDB.Close(); err != nil {
 		log.Fatalln(err)
 	}
 }
