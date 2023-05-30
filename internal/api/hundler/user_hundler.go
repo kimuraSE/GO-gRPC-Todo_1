@@ -9,6 +9,7 @@ import (
 
 type IUserHandler interface {
 	RegisterUser(ctx context.Context, in *user.RegisterRequest) (*user.RegisterResponse, error)
+	LoginUser(ctx context.Context, in *user.LoginRequest) (*user.LoginResponse, error)
 }
 
 type userHandler struct {
@@ -22,18 +23,33 @@ func NewUserHandler(uu usecase.IUserUsecase) user.UserServiceServer {
 
 func (h *userHandler) RegisterUser(ctx context.Context, in *user.RegisterRequest) (*user.RegisterResponse, error) {
 
-	newUser:=model.User{
-		Name: in.Name,
-		Email: in.Email,
+	newUser := model.User{
+		Name:     in.Name,
+		Email:    in.Email,
 		Password: []byte(in.Password),
 	}
 
 	token, err := h.uu.RegisterUser(newUser)
 	if err != nil {
-		return &user.RegisterResponse{Token: token},err
+		return &user.RegisterResponse{}, err
 	}
 
 	return &user.RegisterResponse{Token: token}, nil
 
 }
 
+func (h *userHandler) LoginUser(ctx context.Context, in *user.LoginRequest) (*user.LoginResponse, error) {
+
+	newUser := model.User{
+		Email:    in.Email,
+		Password: []byte(in.Password),
+	}
+
+	token, err := h.uu.LoginUser(newUser)
+	if err != nil {
+		return &user.LoginResponse{}, err
+	}
+
+	return &user.LoginResponse{Token: token}, nil
+
+}
