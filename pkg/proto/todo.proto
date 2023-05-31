@@ -1,0 +1,58 @@
+syntax="proto3";
+
+package todo;
+
+option go_package = "./todo";
+
+service TodoService {
+  rpc Create(Todo) returns (TodoResponse) {}
+  rpc Read(ReadRequest) returns (TodoResponse) {}
+  rpc Update(UpdateTodoRequest) returns (TodoResponse) {}
+  rpc Delete(DeleteTodoRequest) returns (DeleteTodoResponse) {}
+  rpc GetAllTodoList(TodoListRequest) returns (TodoListResponse) {}
+}
+
+message Todo {
+  string title = 2;
+  uint32 user_id = 3;
+}
+
+message ReadRequest {
+  uint32 user_id = 1;
+  uint32 todo_id = 2;
+}
+
+
+message TodoResponse {
+  uint32 id = 1;
+  string title = 2;
+}
+
+message TodoMessage {
+    string message = 1;
+}
+
+message TodoListRequest {
+  uint32 user_id = 1;
+}
+
+message TodoListResponse {
+  repeated TodoResponse todos = 1;
+}
+
+message UpdateTodoRequest {
+    uint32 todo_id = 1;
+    string title = 2;
+    uint32 user_id = 3;
+}
+
+message DeleteTodoRequest {
+    uint32 todo_id = 1;
+    uint32 user_id = 2;
+}
+
+message DeleteTodoResponse {
+    string message = 1;
+}
+
+

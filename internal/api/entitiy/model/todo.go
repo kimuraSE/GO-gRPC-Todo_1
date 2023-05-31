@@ -5,3 +5,8 @@ type Todo struct {
 	Title  string
 	UserID uint
 }
+
+type TodoResponse struct {
+	Id    uint
+	Title string
+}
