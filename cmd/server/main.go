@@ -6,11 +6,13 @@ import (
 	"gRPC-Todo/internal/api/usecase"
 	"gRPC-Todo/internal/db"
 	"gRPC-Todo/pkg/routes"
+	"gRPC-Todo/pkg/todo"
 	"gRPC-Todo/pkg/user"
 )
 
 type server struct {
 	user.UnimplementedUserServiceServer
+	todo.UnimplementedTodoServiceServer
 }
 
 func main() {
@@ -21,5 +23,9 @@ func main() {
 	userUsecaase := usecase.NewUserUsecase(userRepository)
 	userHandler := hundler.NewUserHandler(userUsecaase)
 
-	routes.NewServer(userHandler)
+	todoRepository := repository.NewTodoRepository(db)
+	todoUsecaase := usecase.NewTodoUsecase(todoRepository)
+	todoHandler := hundler.NewTodoHundler(todoUsecaase)
+
+	routes.NewServer(userHandler, todoHandler)
 }
