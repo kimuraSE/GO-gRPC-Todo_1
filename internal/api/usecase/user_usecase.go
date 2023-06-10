@@ -3,7 +3,7 @@ package usecase
 import (
 	"gRPC-Todo/internal/api/entitiy/model"
 	"gRPC-Todo/internal/api/entitiy/repository"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	bycrypt "golang.org/x/crypto/bcrypt"
 	"os"
 	"time"
