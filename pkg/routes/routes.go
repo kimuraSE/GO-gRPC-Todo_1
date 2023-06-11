@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"context"
 	"gRPC-Todo/pkg/todo"
 	"gRPC-Todo/pkg/user"
 	"log"
 	"net"
+
 	"google.golang.org/grpc"
 )
 
@@ -16,7 +16,7 @@ func NewServer(uh user.UserServiceServer, th todo.TodoServiceServer) {
 		log.Fatalln(err)
 	}
 
-	s := grpc.NewServer(grpc.UnaryInterceptor(myLogging()))
+	s := grpc.NewServer()
 
 	user.RegisterUserServiceServer(s, uh)
 	todo.RegisterTodoServiceServer(s, th)
@@ -27,14 +27,3 @@ func NewServer(uh user.UserServiceServer, th todo.TodoServiceServer) {
 
 }
 
-func myLogging() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-		log.Println("Request:"+req.(string))
-		resp, err := handler(ctx, req)
-		if err != nil {
-			return nil, err
-		}
-		log.Println("Response:"+resp.(string))
-		return resp, err
-	}
-}
