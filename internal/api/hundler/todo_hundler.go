@@ -82,7 +82,7 @@ func (th *todoHundler) Update(ctx context.Context, in *todo.UpdateTodoRequest) (
 }
 
 func (th *todoHundler) Delete(ctx context.Context, in *todo.DeleteTodoRequest) (*todo.DeleteTodoResponse, error) {
-	
+
 	message, err := th.tu.DeleteTodoById(uint(in.UserId), uint(in.TodoId))
 	if err != nil {
 		return &todo.DeleteTodoResponse{}, err

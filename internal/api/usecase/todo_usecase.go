@@ -94,11 +94,11 @@ func (tu *todoUsecase) UpdateTodo(todo model.Todo) (model.TodoResponse, error) {
 	return todoResponse, nil
 }
 
-func (tu *todoUsecase) DeleteTodoById(userId uint, todoId uint) (string, error){
-	
+func (tu *todoUsecase) DeleteTodoById(userId uint, todoId uint) (string, error) {
+
 	if err := tu.tr.DeleteTodoById(userId, todoId); err != nil {
-		return "no",err
+		return "no", err
 	}
 
-	return "yes",nil
+	return "yes", nil
 }

@@ -46,22 +46,22 @@ func (tr *todoRepository) GetAllTodos(todo *[]model.Todo, userId uint) error {
 }
 
 func (tr *todoRepository) UpdateTodo(todo *model.Todo, userId uint, todoId uint) error {
-	result := tr.db.Model(todo).Clauses(clause.Returning{}).Where("id=? AND user_id = ?",todoId,userId).Update("title",todo.Title)
-	if result.Error != nil{
+	result := tr.db.Model(todo).Clauses(clause.Returning{}).Where("id=? AND user_id = ?", todoId, userId).Update("title", todo.Title)
+	if result.Error != nil {
 		return result.Error
 	}
-	if result.RowsAffected < 1{
+	if result.RowsAffected < 1 {
 		return fmt.Errorf("task not found")
 	}
 	return nil
 }
 
 func (tr *todoRepository) DeleteTodoById(userId uint, todoId uint) error {
-	result := tr.db.Where("id=? AND user_id = ?",todoId,userId).Delete(&model.Todo{})
-	if result.Error != nil{
+	result := tr.db.Where("id=? AND user_id = ?", todoId, userId).Delete(&model.Todo{})
+	if result.Error != nil {
 		return result.Error
 	}
-	if result.RowsAffected < 1{
+	if result.RowsAffected < 1 {
 		return fmt.Errorf("task not found")
 	}
 	return nil
