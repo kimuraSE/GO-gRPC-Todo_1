@@ -2,7 +2,6 @@ package routes
 
 import (
 	"context"
-	"errors"
 	"gRPC-Todo/pkg/todo"
 	"gRPC-Todo/pkg/user"
 	"log"
@@ -11,6 +10,8 @@ import (
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func NewServer(uh user.UserServiceServer, th todo.TodoServiceServer) {
@@ -41,7 +42,7 @@ func authorize(ctx context.Context) (context.Context, error) {
 		return nil, err
 	}
 	if token != "test" {
-		return nil, errors.New("bad token")
+		return nil, status.Error(codes.Unauthenticated, "token is invalid")
 	}
 	return ctx, nil
 }
